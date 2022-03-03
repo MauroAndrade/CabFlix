@@ -1,0 +1,19 @@
+﻿################################################################################
+# Este arquivo .gitignore foi criado automaticamente pelo Microsoft(R) Visual Studio.
+################################################################################
+
+/SASS/.vs
+
+Web.config
+Web.Debug.config
+Web.Release.config
+/.vs/Cabflix/v15
+/Cabflix/obj/Release
+/Cabflix/Properties/PublishProfiles
+/.vs/config
+/Cabflix/bin
+/Cabflix/obj/Debug
+/Cabflix/UploadedFiles
+/Cabflix/Cabflix.csproj.user
+/packages
+/SQLRelatorio.sql

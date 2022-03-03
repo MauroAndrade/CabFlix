@@ -1,0 +1,190 @@
+﻿@model Cabflix.Models.ViewModel.RelatorioAcessoDetalhado
+
+@using Cabflix.Controllers;
+
+@{
+    /**/
+
+    Layout = null;
+
+    var usuarioLogado = ((MasterController)this.ViewContext.Controller).GetUsuarioLogado();
+
+    var logradouro = usuarioLogado.Empresa.Logradouro;
+    var numero = usuarioLogado.Empresa.Numero;
+    var complemento = usuarioLogado.Empresa.Complemento;
+    var cidade = usuarioLogado.Empresa.Cidade;
+    var uf = usuarioLogado.Empresa.Uf;
+
+    var endereço = logradouro + ", " + numero + ", ";
+    if (!complemento.IsEmpty())
+    {
+        endereço += complemento + " - ";
+    }
+
+    endereço += cidade + " / " + uf.Nome;
+
+    var idContato = Model.idContato;
+    var contato = ((MasterController)this.ViewContext.Controller).GetContato(idContato);
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/Css/relatorio.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
+
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-4">
+                <img alt="DPB" src="/dist/img/cabflix.png" style="width:170px; " />
+            </div>
+            <div class="col-md-8">
+                <strong style="font-size:18px;">@usuarioLogado.Empresa.RazaoSocial</strong><br />
+                <strong style="font-size:16px;">@endereço</strong><br />
+                <strong style="font-size:16px;">@usuarioLogado.Empresa.Email</strong><br />
+            </div>
+        </div>
+
+    </div>
+    <hr />
+    <div class="text-center">
+        <strong style="font-size:20px;">@contato.Nome</strong><br />
+    </div>
+    <hr />
+    <div>
+        <strong style="font-size:20px; float:left">Período: @Model.Periodo</strong>
+        <strong style="font-size:20px; float:right"> Total: @Model.Total.ToString("n2")</strong>
+        <br />
+    </div>
+
+    <hr />
+
+    @if (Model != null)
+    {
+        decimal somaPorcentagem = 0m;
+        decimal somaTotal = 0m;
+
+    <div style="float:left; font-size:18px">
+        <i class="fas fa-phone-alt"></i>
+        <strong> Resumo por Grupo de Serviço</strong><br />
+    </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Grupo de Serviço</th>
+                    <th class="text-right">Quantidade</th>
+                    <th class="text-right">Porcentagem</th>
+                    <th class="text-right">Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ResumoPorGrupoServico)
+                {
+                    <tr>
+                        <td>@(item.ID_GRUPO_SERVICO + " - " + item.GRUPO_SERVICO)</td>
+                        @{
+                            decimal dados_minutos = (decimal)(item.TOTAL_DADOS != null ? item.TOTAL_DADOS : item.TOTAL_MINUTOS != null ? item.TOTAL_MINUTOS : 0m);
+                        }
+
+                        <td class="text-right">@dados_minutos.ToString("n2")</td>
+                        <td class="text-right">@(item.PORCENTAGEM.ToString("n2"))%</td>
+                        <td class="text-right">R$ @item.TOTAL_VALOR.ToString("n2")</td>
+                    </tr>
+                    somaPorcentagem += item.PORCENTAGEM;
+                    somaTotal += item.TOTAL_VALOR;
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th></th>
+                    <th class="text-right">Total</th>
+                    <th class="text-right">@(Math.Round(somaPorcentagem, 2))%</th>
+                    <th class="text-right">R$ @somaTotal.ToString("n2")</th>
+                </tr>
+            </tfoot>
+        </table>
+
+        <hr />
+
+        decimal somaPorcentagemClassificação = 0m;
+        decimal somaTotalClassificação = 0m;
+
+        <div style="float:left; font-size:18px">
+            <i class="fas fa-phone-alt"></i>
+            <strong> Resumo por Classificação</strong><br />
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Classificação</th>
+                    <th class="text-right">Quantidade</th>
+                    <th class="text-right">Porcentagem</th>
+                    <th class="text-right">Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ResumoPorClassificacao)
+                {
+                    <tr>
+                        <td>@(item.Classificacao)</td>
+                        <td class="text-right">@(item.Quantidade)</td>
+                        <td class="text-right">@(item.Porcentagem.ToString("n2"))%</td>
+                        <td class="text-right">R$ @item.Valor.ToString("n2")</td>
+                    </tr>
+                    somaPorcentagemClassificação += item.Porcentagem;
+                    somaTotalClassificação += item.Valor;
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th></th>
+                    <th class="text-right">Total</th>
+                    <th class="text-right">@(Math.Round(somaPorcentagemClassificação, 2))%</th>
+                    <th class="text-right">R$ @somaTotalClassificação.ToString("n2")</th>
+                </tr>
+            </tfoot>
+        </table>
+
+        <hr />
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Horário</th>
+                    <th>Destino</th>
+                    <th class="text-right">Quantidade</th>
+                    <th class="text-right">Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.RelatorioUsuarioDetalhado)
+                {
+                    <tr>
+                        <td>@item.DATA</td>
+                        <td>@item.HORARIO</td>
+                        <td>@item.DESTINO</td>
+                        <td class="text-right">@(item.QUANTIDADE + " " + item.UNIDADEMEDIDA)</td>
+                        <td class="text-right">R$ @item.VALOR.ToString("n2")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    }
+    else
+    {
+        <div class="row">
+            <label class="control-label col-md-12">Sem dados no momento.</label>
+        </div>
+    }
+
+</body>
+</html>

@@ -1,0 +1,79 @@
+﻿@model List<Cabflix.Models.Database.NumeroLinha>
+
+@using Cabflix.Utils;
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<section class="content margin-top-10">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Número da Linha</h3>
+                    <div class="card-tools">
+                        <a href="@Url.Action("Create", "NumeroLinha")" class="btn btn-tool" data-toggle="tooltip" title="Adicionar Número"><i class="fas fa-plus"></i></a>
+                    </div>
+                </div>
+                <div class="card-body" style="display: block;">
+
+                    <table id="usuario" class="table table-bordered table-striped table-row">
+                        <thead>
+                            <tr>
+                                <th>Número</th>
+                                <th>Conta</th>
+                                <th>Contato</th>
+                                <th>Empresa</th>
+                                <th>Centro de Custo</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr id="@item.Id.ToString().Criptografar()">
+                                    <td>@item.Numero</td>
+                                    <td>@item.Conta.Codigo</td>
+                                    <td>@item.Contato.Nome</td>
+                                    <td>@item.Empresa.Nome</td>
+
+                                    @*<td>@item.CentroCusto.Nome <i class='fas fa-long-arrow-alt-right'></i> @item.CentroCusto.Nome</td>*@
+                                    <td>@item.CentroCusto.Nome</td>
+
+                                    <td class="btn-group btn-group-sm">
+                                        <a href="@Url.Action("Edit", "NumeroLinha", new { id = item.Id.ToString().Criptografar() })" class="btn btn-info"><i class="fas fa-pencil-alt"></i></a>
+                                        <a href="@Url.Action("Delete", "NumeroLinha", new { id = item.Id.ToString().Criptografar() })" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                            }
+
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Número</th>
+                                <th>Conta</th>
+                                <th>Contato</th>
+                                <th>Empresa</th>
+                                <th>Centro de Custo</th>
+                                <th>Ação</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+
+
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+
+    </div>
+
+
+</section>
+
+

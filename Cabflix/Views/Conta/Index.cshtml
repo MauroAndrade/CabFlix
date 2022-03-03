@@ -1,0 +1,84 @@
+﻿@model List<Cabflix.Models.Database.Conta>
+
+@using Cabflix.Utils;
+
+@{
+    ViewBag.Title = "Conta";
+}
+
+
+
+<section class="content margin-top-10">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Conta</h3>
+                    <div class="card-tools">
+                        <a href="@Url.Action("Create", "Conta")" class="btn btn-tool" data-toggle="tooltip" title="Adicionar Conta"><i class="fas fa-plus"></i></a>
+                    </div>
+                </div>
+                <div class="card-body" style="display: block;">
+
+                    <table id="usuario" class="table table-bordered table-striped table-row">
+                        <thead>
+                            <tr>
+                                <th>Codigo</th>
+                                <th>CNPJ</th>
+                                <th>Empresa</th>
+                                <th>Vencimento</th>
+                                <th>Prazo</th>
+                                <th>Operadora</th>
+                                <th>Tipo</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr id="@item.Id.ToString().Criptografar()">
+                                    <td>@item.Codigo</td>
+                                    <td>@item.Cnpj</td>
+                                    <td>@item.Empresa.Nome</td>
+                                    <td>@item.Vencimento</td>
+                                    <td>@item.Prazo</td>
+                                    <td>@item.Operadora.Nome</td>
+                                    <td>@item.TipoConta.Nome</td>
+                                    <td class="btn-group btn-group-sm">
+                                        <a href="@Url.Action("Edit", "Conta", new { id = item.Id.ToString().Criptografar()})" class="btn btn-info"><i class="fas fa-pencil-alt"></i></a>
+                                        <a href="@Url.Action("Delete", "Conta", new { id = item.Id.ToString().Criptografar()})" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                            }
+
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Codigo</th>
+                                <th>CNPJ</th>
+                                <th>Empresa</th>
+                                <th>Vencimento</th>
+                                <th>Prazo</th>
+                                <th>Operadora</th>
+                                <th>Tipo</th>
+                                <th>Ação</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+
+
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+
+    </div>
+
+
+</section>
+
+

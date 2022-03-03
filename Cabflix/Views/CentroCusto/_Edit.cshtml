@@ -1,0 +1,43 @@
+﻿@model Cabflix.Models.ViewModel.CentroCustoEditViewModel
+
+@using Cabflix.Models.Database;
+
+<div class="modal-content">
+    <div class="modal-header">
+        @*<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Editar Centro de Custo</h4>*@
+
+        <h4 class="modal-title">Editar Centro de Custo</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+        <div class="modal-body">
+            <div class="row">
+                @Html.HiddenFor(Model => Model.Id)
+                <div class="col-md-12">
+                    <div class="form-group floating-label">
+                        @Html.LabelFor(Model => Model.FkPai)
+                        @Html.DropDownListFor(Model => Model.FkPai, new SelectList((IEnumerable<CentroCusto>
+                         )ViewBag.CentroCusto, "Id", "Nome"),
+                         "Selecione", new { @id = "CentroCusto", @class = "form-control validate" })
+                        @Html.ValidationMessageFor(Model => Model.FkPai)
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(Model => Model.Nome)
+                        @Html.EditorFor(Model => Model.Nome, "", new { htmlAttributes = new { @class = "form-control validate" } })
+                        @Html.ValidationMessageFor(Model => Model.Nome)
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(Model => Model.Classificacao)
+                        @Html.EditorFor(Model => Model.Classificacao, "", new { htmlAttributes = new { @class = "form-control validate" } })
+                        @Html.ValidationMessageFor(Model => Model.Classificacao)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+            <button type="button" onclick="EditCentroCusto()" class="btn btn-primary">Salvar</button>
+        </div>
+    </div>

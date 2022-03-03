@@ -1,0 +1,110 @@
+﻿@model List<Cabflix.Models.ViewModel.AgendaViewModel>
+@using Cabflix.Utils;
+
+@{
+    ViewBag.Title = "Index";
+    var status = ViewBag.Status;
+}
+
+
+
+<section class="content margin-top-10">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Agenda</h3>
+                    <div class="card-tools">
+                        @*<a href="@Url.Action("Create", "Agenda")" class="btn btn-tool" data-toggle="tooltip" title="Adicionar Número"><i class="fas fa-plus"></i></a>*@
+                        <a href="@Url.Action("Index", "Agenda", new { status = @status })" class="btn btn-tool" data-toggle="tooltip" title="Visualizar @(status == true ? "Inativos" : "Ativos")">
+                            <i class="fas @(status == true ? "fa-eye-slash" : "fa-eye") "></i>
+                        </a>
+                        <button onclick="CreateAgendaCarregaModal()" class="btn btn-tool" data-toggle="modal" data-target="#CreateModal" title="Adicionar Agenda"><i class="fas fa-plus"></i></button>
+                    </div>
+                </div>
+                <div class="card-body" style="display: block;">
+
+                    <table id="usuario" class="table table-bordered table-striped table-row">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Telefone</th>
+                                <th>Individual</th>
+                                <th>Classificação</th>
+                                @*<th>Empresa</th>*@
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr id="@item.Id">
+                                    <td>@item.Nome</td>
+                                    <td>@item.Telefone</td>
+                                    @if (item.Individual.Equals(true))
+                                    {
+                                        <td>Sim</td>
+                                    }
+                                    else
+                                    {
+                                        <td>Não</td>
+                                    }
+                                    <td>@item.Classificacao</td>
+                                    @*<td>@item.Empresa.Nome</td>*@
+                                    @*<td class="btn-group btn-group-sm">
+                                            <a href="@Url.Action("Edit", "Agenda", new { id = item.Id.ToString().Criptografar()})" class="btn btn-info"><i class="fas fa-pencil-alt"></i></a>
+                                            <a href="@Url.Action("Delete", "Agenda", new { id = item.Id.ToString().Criptografar()})" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                        </td>*@
+                                    <td class="acoes">
+                                        <button id="@item.Id.ToString().Criptografar()" onclick="EditAgendaCarregaModal(this.id)" data-toggle="modal" data-target="#EditModal" class="btn btn-info" title="Editar">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </button>
+                                        <button id="@item.Id.ToString().Criptografar()" onclick="ChangeStatus(this.id)" title="@(item.Removed == true ? "Ativar" : "Desativar")" class="btn btn-danger">
+                                            <i class="fas @(item.Removed == true ? "fa-toggle-on" : "fa-toggle-off")"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Telefone</th>
+                                <th>Individual</th>
+                                <th>Classificação</th>
+                                @*<th>Empresa</th>*@
+                                <th>Ação</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+
+
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+
+    </div>
+
+
+</section>
+
+
+<!--  Modals-->
+<div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div id="modal-edit-agenda"></div>
+    </div>
+</div>
+
+<div class="modal fade" id="CreateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div id="modal-create-agenda"></div>
+    </div>
+</div>
+<!-- End Modals-->

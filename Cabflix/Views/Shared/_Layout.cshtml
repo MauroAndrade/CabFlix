@@ -1,0 +1,414 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CabFlix - @ViewBag.Title</title>
+
+    @*@Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")*@
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
+    <!-- IonIcons -->
+
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- daterange picker -->
+    <link href="~/plugins/daterangepicker-master/daterangepicker.css" rel="stylesheet" />
+
+    <!-- date picker -->
+    @*<link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />*@
+    <link href="~/Content/bootstrap-datepicker.min.css" rel="stylesheet" />
+
+    <!-- Select2 -->
+    <link href="~/plugins/select2/css/select2.min.css" rel="stylesheet" />
+    <link href="~/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css" rel="stylesheet" />
+    <!--DATATABLES-->
+    <link href="~/plugins/datatables-bs4/css/dataTables.bootstrap4.css" rel="stylesheet" />
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link href="~/plugins/icheck-bootstrap/icheck-bootstrap.min.css" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link href="~/Content/Custom.css" rel="stylesheet" />
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/dist/css/adminlte.min.css">
+
+    <!-- Bootstrap4 Duallistbox -->
+    <link href="~/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css" rel="stylesheet" />
+
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <link href="~/plugins/TreeGrid/jquery.treegrid.css" rel="stylesheet" />
+
+    <!-- Sweet Alert -->
+    <link href="~/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css" rel="stylesheet" />
+
+    <!-- Toast -->
+    <link href="~/plugins/toastr/toastr.min.css" rel="stylesheet" />
+
+</head>
+<body class="hold-transition sidebar-mini text-sm">
+    <div class="wrapper">
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="@Url.Action("Index", "Painel")" class="nav-link">Dashboard</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="@Url.Action("Index", "Detalhamento")" class="nav-link">Detalhamento</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link" data-toggle="dropdown" href="#">
+                        <div class="user-block">
+                            <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">
+                            <span class="username">
+                                @Request.Cookies["Nome"].Value
+                            </span>
+                            <span class="description"> @Request.Cookies["Empresa"].Value</span>
+                        </div>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-md-right dropdown-menu-right">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a href="@Url.Action("Edit", "Usuario")" class="dropdown-item ">
+                                Alterar Senha<i class="fas fa-key float-right mr-2"></i>
+                                @*<span class="float-right text-muted text-sm">12 hours</span>*@
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="@Url.Action("Logout", "Login")" class="dropdown-item ">
+                                Logout <i class="fas fa-sign-out-alt float-right mr-2"></i>
+                                @*<span class="float-right text-muted text-sm">12 hours</span>*@
+                            </a>
+                        }
+
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#">
+                        <i class="fas fa-th-large"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.navbar -->
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <!-- Brand Logo -->
+            <a href="@Url.Action("Index", "Painel")" class="brand-link">
+                <img src="~/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+                     style="opacity: .8">
+                <span class="brand-text font-weight-light">CabFlix</span>
+            </a>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
+                        <!-- Add icons to the links using the .nav-icon class
+                        with font-awesome or any other icon font library -->
+                        <li class="nav-header">SISTEMA</li>
+
+                        <!---- Fatura ---->
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fa fa-address-book"></i>
+                                <p>
+                                    Fatura
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Fatura")" class="nav-link">
+                                        <i class="fa fa-cloud-upload-alt nav-icon"></i>
+                                        <p>Upload</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Conta")" class="nav-link">
+                                        <i class="fa fa-file-invoice-dollar nav-icon"></i>
+                                        <p>Conta</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Contato")" class="nav-link">
+                                        <i class="fa fa-user nav-icon"></i>
+                                        <p>Contato</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "NumeroLinha")" class="nav-link">
+                                        <i class="fa fa-mobile-alt nav-icon"></i>
+                                        <p>Número</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <!---- Telefonia ---->
+                        <li class="nav-item has-treeview ">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-phone"></i>
+                                <p>
+                                    Telefonia
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "CentroCusto")" class="nav-link">
+                                        <i class="fa fa-warehouse nav-icon"></i>
+                                        <p>Centro de Custo</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "FaixaHorario")" class="nav-link">
+                                        <i class="far fa-clock nav-icon"></i>
+                                        <p>Faixa de Horario</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Operadora")" class="nav-link">
+                                        <i class="fa fa-ethernet nav-icon"></i>
+                                        <p>Operadora</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "TipoConta")" class="nav-link">
+                                        <i class="fa fa-network-wired nav-icon"></i>
+                                        <p>Tipo de Conta</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Servico")" class="nav-link">
+                                        <i class="fa fa-sticky-note nav-icon"></i>
+                                        <p>Servico</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "GrupoServico")" class="nav-link">
+                                        <i class="far fa-copy nav-icon"></i>
+                                        <p>Grupo de Servico</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "UnidadeMedida")" class="nav-link">
+                                        <i class="fa fa-ruler-combined nav-icon"></i>
+                                        <p>Unidade de Medida</p>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+                        <!---- Fim Telefonia ---->
+                        <!---- Ativo ---->
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fa fa-laptop"></i>
+                                <p>
+                                    Ativo
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Ativo")" class="nav-link">
+                                        <i class="fa fa-mobile nav-icon"></i>
+                                        <p>Ativo</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Fabricante")" class="nav-link">
+                                        <i class="fa fa-shield-alt nav-icon"></i>
+                                        <p>Fabricante</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "TipoAtivo")" class="nav-link">
+                                        <i class="fa fa-rocket nav-icon"></i>
+                                        <p>Tipo do Ativo</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!---- Fim Ativo ---->
+
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fa fa-address-book"></i>
+                                <p>
+                                    Agenda
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Agenda")" class="nav-link">
+                                        <i class="fa fa-address-card nav-icon"></i>
+                                        <p>Agenda</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Classificacao")" class="nav-link">
+                                        <i class="fa fa-list-ul nav-icon"></i>
+                                        <p>Classificação</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <!---- Configuração ---->
+                        <li class="nav-item has-treeview ">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-cogs"></i>
+                                <p>
+                                    Administração
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                @*<li class="nav-item">
+                                        <a href="@Url.Action("Index", "NivelCentroCusto")" class="nav-link">
+                                            <i class="fa fa-industry nav-icon"></i>
+                                            <p>Nível de Centro de Custo</p>
+                                        </a>
+                                    </li>*@
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "CentroCusto")" class="nav-link">
+                                        <i class="fa fa-industry nav-icon"></i>
+                                        <p>Centro de Custo</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Empresa")" class="nav-link">
+                                        <i class="fa fa-industry nav-icon"></i>
+                                        <p>Empresa</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Perfil")" class="nav-link">
+                                        <i class="fa fa-id-badge nav-icon"></i>
+                                        <p>Perfil</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Permissao")" class="nav-link">
+                                        <i class="fa fa-lock nav-icon"></i>
+                                        <p>Permissão</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Usuario")" class="nav-link">
+                                        <i class="fa fa-users nav-icon"></i>
+                                        <p>Usuário</p>
+                                    </a>
+
+                                </li>
+
+                            </ul>
+                        </li>
+                        <!---- Fim Configuração ---->
+
+                    </ul>
+                </nav>
+                <!-- /.sidebar-menu -->
+            </div>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+
+        <div class="content-wrapper">
+
+            <div id="demo">
+
+            </div>
+
+
+            <!-- Main content -->
+
+            @RenderBody()
+
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark  margin-top-20">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
+
+    </div>
+    <!-- ./wrapper -->
+    <!-- REQUIRED SCRIPTS -->
+    <!-- jQuery -->
+    <script src="~/plugins/jquery/jquery.min.js"></script>
+    <script src="~/plugins/loading-indicator-view/loadingView.js"></script>
+
+    <!-- Bootstrap -->
+    <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!--SELECT2-->
+    <script src="~/plugins/select2/js/select2.min.js"></script>
+
+    <!--DATATABLE-->
+    <script src="~/plugins/datatables/jquery.dataTables.js"></script>
+    <script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+
+    <!-- Bootstrap4 Duallistbox -->
+    <script src="~/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+
+    <!-- InputMask -->
+    <script src="~/plugins/moment/moment.min.js"></script>
+    <script src="~/plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
+
+    <!-- AdminLTE -->
+    <script src="~/dist/js/adminlte.js"></script>
+
+    <!-- OPTIONAL SCRIPTS -->
+    @*<script src="~/plugins/chart.js/Chart.min.js"></script>*@
+    <script src="~/dist/js/demo.js"></script>
+    @*<script src="~/dist/js/pages/dashboard3.js"></script>*@
+
+    <script src="~/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+    <script src="~/Scripts/View/Layout.js"></script>
+
+    <!-- InputMask -->
+    @*<script src="~/plugins/moment/moment.min.js"></script>*@
+    <script src="~/plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
+
+    <!-- date-range-picker -->
+
+    <script src="~/plugins/daterangepicker-master/daterangepicker.js"></script>
+    <script src="~/plugins/daterangepicker-master/moment.min.js"></script>
+    <script src="~/plugins/daterangepicker-master/package.js"></script>
+
+    <!-- date picker -->
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.pt-BR.min.js"></script>
+
+    <script src="~/plugins/TreeGrid/jquery.treegrid.min.js"></script>
+
+    <!-- Toastr -->
+    <script src="~/plugins/toastr/toastr.min.js"></script>
+
+    <!-- SweetAlert2 -->
+    <script src="~/plugins/sweetalert2/sweetalert2.min.js"></script>
+
+
+    @Html.Partial("_Scripts")
+
+
+</body>
+</html>

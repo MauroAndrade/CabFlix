@@ -1,0 +1,140 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<link href="~/plugins/jquery-File-Upload/jquery.fileupload.css" rel="stylesheet" />
+<script src="~/plugins/jquery-File-Upload/jquery.fileupload.js"></script>
+
+<style type="text/css">
+
+    #filecontents {
+        border: double;
+        overflow-y: scroll;
+        height: 400px;
+    }
+</style>
+<section class="content margin-top-10">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Faturas</h3>
+                    <div class="card-tools">
+                        <a href="@Url.Action("Index", "Fatura")" class="btn btn-tool" data-toggle="tooltip" title="Upload de Faturas"><i class="fas fa-plus"></i></a>
+                    </div>
+                </div>
+                <div class="card-body" style="display: block;">
+
+
+                    @using (Html.BeginForm("UploadFile", "Upload", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        <div class="col-md-12">
+                            <div class="row">
+
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Conta</label>
+                                        <select class="form-control validate" name="conta" id="conta"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Operadora</label>
+                                        <select class="form-control validate" name="operadora" id="operadora"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Mês</label>
+                                        <select class="form-control validate" name="mes" id="mes">
+                                            <option value="1">Janeiro</option>
+                                            <option value="2">Fevereiro</option>
+                                            <option value="3">Março</option>
+                                            <option value="4">Abril</option>
+                                            <option value="5">Maio</option>
+                                            <option value="6">Junho</option>
+                                            <option value="7">Julho</option>
+                                            <option value="8">Agosto</option>
+                                            <option value="9">Setembro</option>
+                                            <option value="10">Outubro</option>
+                                            <option value="11">Novembro</option>
+                                            <option value="12">Dezembro</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Ano</label>
+                                        <select class="form-control validate" name="ano" id="ano">
+                                            <option value="2019">2019</option>
+                                            <option value="2019">2020</option>
+                                            <option value="2019">2021</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-group">
+                                @Html.TextBox("file", "", new { type = "file" }) <br />
+
+                                <input type="submit" value="Upload" class="btn-primary" />
+                            </div>
+                            @ViewBag.Message
+
+                        </div>
+
+
+                    }
+
+
+                    @*<div class="row">
+                            <div class="col-md-12">
+
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="exampleInputFile">Faturas Selecionadas</label>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="csvfile" multiple>
+                                                <label class="custom-file-label" for="txtfiletoread">Selecione as Faturas</label>
+                                            </div>
+                                            <div class="input-group-append">
+                                                <span class="input-group-text pointer-event" onclick="ExportToTable()" id="">Upload</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+
+    </div>
+
+
+</section>
+
+@*<script type="text/javascript">
+    $(document).ready(function () {
+
+        //bsCustomFileInput.init();
+
+
+        document.getElementById('exampleInputFile').onchange = function () {
+            alert('Selected file: ' + this.value);
+        };
+
+    });
+
+    </script>*@
+
+@*<script src="~/Scripts/View/Fatura.js"></script>*@
+

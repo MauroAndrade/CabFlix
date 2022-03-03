@@ -1,0 +1,141 @@
+﻿@model List<Cabflix.Models.Database.CentroCusto>
+
+@using Cabflix.Utils;
+
+@{
+    ViewBag.Title = "Index";
+    ViewData["tela"] = "CentroCusto";
+
+    var listaNiveis = ViewBag.ListaNivel;
+
+    var status = ViewBag.Status;
+
+}
+
+
+<style>
+
+    th, td {
+        text-align: left;
+        padding: 5px 10px;
+        border-bottom: 1px solid #e5e5e5;
+    }
+
+
+    /* Remove default bullets */
+    ul, #myUL {
+        list-style-type: none;
+    }
+
+    /* Remove margins and padding from the parent ul */
+    #myUL {
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Style the caret/arrow */
+    .caret {
+        cursor: pointer;
+        user-select: none; /* Prevent text selection */
+    }
+
+        /* Create the caret/arrow with a unicode, and style it */
+        .caret::before {
+            content: "\25B6";
+            color: black;
+            display: inline-block;
+            margin-right: 6px;
+        }
+
+    /* Rotate the caret/arrow icon when clicked on (using JavaScript) */
+    .caret-down::before {
+        transform: rotate(90deg);
+    }
+
+    /* Hide the nested list */
+    .nested {
+        display: none;
+    }
+
+    /* Show the nested list when the user clicks on the caret/arrow (with JavaScript) */
+    .active {
+        display: block;
+    }
+
+    .acoes{
+        width: 10%;
+    }
+
+</style>
+
+<section class="content margin-top-10">
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Centro de Custo</h3>
+                    <div class="card-tools">
+                        <a href="@Url.Action("Index", "CentroCusto", new { status = @status })" class="btn btn-tool" data-toggle="tooltip" title="Visualizar @(status == true ? "Inativos" : "Ativos")">
+                            <i class="fas @(status == true ? "fa-eye-slash" : "fa-eye") "></i>
+                        </a>
+                        <button  onclick="CreateCentroCustoCarregaModal()" class="btn btn-tool" data-toggle="modal" data-target="#CreateModal" title="Adicionar Centro de Custo"><i class="fas fa-plus"></i></button>
+                    </div>
+                </div>
+
+                <table class="tree">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Classificação</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in Model.OrderBy(x => x.Classificacao))
+                        {
+                            <tr class='treegrid-@item.Id @(item.FkPai == null ? "expanded" : "") @(item.FkPai != null ? "treegrid-parent-"+item.FkPai : "")'>
+                                <td>@item.Nome</td>
+                                <td>@item.Classificacao</td>
+                                <td class="acoes">
+                                    <button id="@item.Id.ToString().Criptografar()" onclick="EditCentroCustoCarregaModal(this.id)" data-toggle="modal" data-target="#EditModal" class="btn btn-info" title="Editar"><i class="fas fa-pencil-alt"></i></button>
+                                    <button id="@item.Id.ToString().Criptografar()" onclick="ChangeStatus(this.id)" title="@(item.Removed == true ? "Ativar" : "Desativar")" class="btn btn-danger">
+                                        <i class="fas @(item.Removed == true ? "fa-toggle-on" : "fa-toggle-off")"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+
+                <div class="card-body" style="display: block;">
+
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+
+    </div>
+
+
+</section>
+
+<!--  Modals-->
+<div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div id="modal-edit-centrocusto"></div>
+    </div>
+</div>
+
+<div class="modal fade" id="CreateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div id="modal-create-centrocusto"></div>
+    </div>
+</div>
+<!-- End Modals-->
+
+

@@ -1,0 +1,92 @@
+﻿@model Cabflix.Models.ViewModel.NumeroLinhaViewmodel
+
+@using Cabflix.Models.Database;
+
+@{
+    ViewBag.Title = "Create";
+}
+
+
+<section class="content margin-top-10">
+
+    @using (Html.BeginForm("Create", "NumeroLinha", FormMethod.Post, new { @class = "col s12" }))
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Cadastrar Número da Linha</h3>
+
+                        @*<div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>*@
+                    </div>
+                    <div class="card-body" style="display: block;">
+
+
+                        @Html.AntiForgeryToken()
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(Model => Model.Numero)
+                                    @Html.EditorFor(Model => Model.Numero, "", new { htmlAttributes = new { @class = "form-control validate" } })
+                                    @Html.ValidationMessageFor(Model => Model.Numero)
+                                </div>
+                                <div class="form-group floating-label">
+                                    @Html.LabelFor(Model => Model.FkEmpresa)
+                                    @Html.DropDownListFor(Model => Model.FkEmpresa, new SelectList((IEnumerable<Empresa>
+                                                )ViewBag.Empresa, "Id", "Nome"),
+                                                "Selecione", new { @id = "Id", @class = "form-control validate" })
+                                    @Html.ValidationMessageFor(Model => Model.FkEmpresa)
+                                </div>
+                                <div class="form-group floating-label">
+                                    @Html.LabelFor(Model => Model.FkConta)
+                                    @Html.DropDownListFor(Model => Model.FkConta, new SelectList((IEnumerable<Conta>
+                                                )ViewBag.Conta, "Id", "Codigo"),
+                                                "Selecione", new { @id = "Id", @class = "form-control validate" })
+                                    @Html.ValidationMessageFor(Model => Model.FkConta)
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group floating-label">
+                                    @Html.LabelFor(Model => Model.FkContato)
+                                    @Html.DropDownListFor(Model => Model.FkContato, new SelectList((IEnumerable<Contato>
+                                                )ViewBag.Contato, "Id", "Nome"),
+                                                "Selecione", new { @id = "Id", @class = "form-control validate" })
+                                    @Html.ValidationMessageFor(Model => Model.FkContato)
+                                </div>
+                                <div class="form-group floating-label">
+                                    <label>Centro de Custo</label>
+                                    <select class="form-control validate" name="FkCentroCusto" id="FkCentroCusto"></select>
+                                </div>
+                                @*<div class="form-group floating-label">
+                                        @Html.LabelFor(Model => Model.FkCentroCusto)
+                                        @Html.DropDownListFor(Model => Model.FkCentroCusto, new SelectList((IEnumerable<CentroCusto>
+                                                    )ViewBag.CentroCusto, "Id", "Nome"),
+                                                    "Selecione", new { @id = "Id", @class = "form-control validate" })
+                                        @Html.ValidationMessageFor(Model => Model.FkCentroCusto)
+                                    </div>*@
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <a href="@Url.Action("Index", "NumeroLinha")" class="btn btn-secondary">Cancelar</a>
+                <input type="submit" value="Salvar" class="btn btn-success float-right">
+            </div>
+        </div>
+    }
+</section>
+

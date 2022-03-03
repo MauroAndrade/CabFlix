@@ -1,0 +1,182 @@
+﻿.underline {
+    text-decoration: underline;
+}
+
+.page-break {
+    border-bottom: 1px solid black;
+    page-break-inside: avoid;
+    width: 100%;
+    float: left;
+    margin-bottom: 15px;
+}
+
+.table-info-ordem-servico, .table-contas-receber, .table-soma, .table-total {
+    margin-bottom: 5px;
+    margin-left: 10px;
+    width: 100%
+}
+
+.table-contas-receber-retrato, .table-soma, .table-total {
+    margin-bottom: 5px;
+    margin-left: 0px;
+    width: 100%
+}
+
+.table-info-servico {
+    margin-left: 20px;
+    width: 100%
+}
+
+.table-contas-receber > thead, .table-total > thead, .table-soma-total > thead {
+    display: table-header-group
+}
+
+.table-contas-receber > tfoot {
+    display: table-row-group
+}
+
+.table-contas-receber > tbody > tr, .table-total > tbody > tr, .table-soma-total > tbody > tr {
+    page-break-inside: avoid
+}
+
+.table-contas-receber > tfoot > tr {
+    page-break-inside: avoid
+}
+
+.table-soma-total-retrato > thead {
+    display: table-header-group
+}
+
+.table-contas-receber-retrato > tfoot {
+    display: table-row-group
+}
+
+.table-contas-receber-retrato > tbody > tr, .table-soma-total-retrato > tbody > tr {
+    page-break-inside: avoid
+}
+
+
+
+.ajustePagina-retrato {
+    page-break-inside: avoid
+}
+
+.ajustePagina {
+    page-break-inside: avoid
+}
+
+.foo {
+    float: left;
+    font-size: 12px;
+}
+
+.bar {
+    padding-left: 185px;
+}
+
+.item {
+    padding-left: 10px;
+}
+
+.table-info-servico > tbody > tr > td, .table-info-ordem-servico > tbody > tr > td, .table-contas-receber > tbody > tr > td, .table-total > tbody > tr > td {
+    vertical-align: middle;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 15px;
+    max-width: 15px;
+    font-size: 10px;
+}
+
+.table-info-servico > tfoot > tr > td, .table-info-servico > thead > tr > td, .table-info-ordem-servico > thead > tr > td, .table-contas-receber > thead > tr > td {
+    font-size: 10px;
+}
+
+.table-contas-receber-retrato > tbody > tr > td, .table-total-retrato > tbody > tr > td, .ajustePagina-retrato > tbody > tr > td {
+    vertical-align: middle;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 15px;
+    max-width: 15px;
+    font-size: 9px;
+}
+
+.table-contas-receber-retrato > thead > tr > td, .table-contas-receber-retrato > thead > tr > th, .table-soma-total-retrato {
+    font-size: 9px;
+}
+
+.table-soma-total-retrato-juros {
+    font-size: 7px;
+}
+
+.background-gray {
+    background-color: #c3c3c3;
+}
+
+.col-2 {
+    float: left;
+    width: 16.66%;
+}
+
+.col-4 {
+    float: left;
+    width: 25%;
+}
+
+.col-6 {
+    width: 50%;
+    float: left;
+}
+
+.col-8 {
+    float: left;
+    margin-left: 5px;
+}
+
+.col-10 {
+    float: left;
+    margin-left: 5px;
+}
+
+.linha-assinatura {
+    border-top: 1px solid black;
+    width: 80%
+}
+
+.padding-left-15 {
+    padding-left: 15%
+}
+
+.row {
+    margin-bottom: 4px;
+}
+
+.margin-top-25 {
+    margin-top: 25px !important;
+}
+
+
+.margin-bottom-25 {
+    margin-bottom: 25px !important;
+}
+
+.linhaSoma {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.linhaSoma-retrato {
+    font-size: 10px;
+    font-weight: bold;
+}
+
+/*Definido cor das linhas pares*/
+.table-contas-receber tr:nth-child(even), .table-soma-total tr:nth-child(odd), .table-contas-receber-retrato tr:nth-child(even), .table-soma-total-retrato tr:nth-child(odd) {
+    background: #FFF
+}
+
+/*Definindo cor das Linhas impáres*/
+.table-contas-receber tr:nth-child(odd), .table-soma-total tr:nth-child(even), .table-contas-receber-retrato tr:nth-child(odd), .table-soma-total-retrato tr:nth-child(even) {
+    background: #EEE
+}

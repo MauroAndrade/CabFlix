@@ -1,0 +1,66 @@
+﻿@model Cabflix.Models.ViewModel.RelatorioDetalhamentoUsuarioViewModel
+
+@{
+    /**/
+
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/Css/relatorio.css" rel="stylesheet" />
+
+</head>
+<body>
+
+
+    <div class="row">
+        <label class="control-label col-md-12"><strong>CLIENTE: Mauro  </strong></label>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>John</td>
+                <td>Doe</td>
+                <td>john@example.com</td>
+            </tr>
+            <tr>
+                <td>Mary</td>
+                <td>Moe</td>
+                <td>mary@example.com</td>
+            </tr>
+            <tr>
+                <td>July</td>
+                <td>Dooley</td>
+                <td>july@example.com</td>
+            </tr>
+        </tbody>
+    </table>
+
+    @if (Model.Qtd > 0)
+    {
+
+ 
+
+    }
+    else
+    {
+        <div class="row">
+            <label class="control-label col-md-12">Sem dados no momento.</label>
+        </div>
+    }
+
+</body>
+</html>

@@ -1,0 +1,110 @@
+﻿@model List<Cabflix.Models.Database.Usuario>
+
+@using Cabflix.Utils;
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+<section class="content margin-top-10">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Usuários Cadastrados</h3>
+                    <div class="card-tools">
+                        <a href="@Url.Action("Create", "Usuario")" class="btn btn-tool" data-toggle="tooltip" title="Adicionar Usuário"><i class="fas fa-plus"></i></a>
+                    </div>
+                </div>
+                <div class="card-body" style="display: block;">
+
+
+                    <table id="usuario" class="table table-bordered table-striped table-row">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>CPF</th>
+                                <th>Status</th>
+                                <th>Data Cadastro</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr id="@item.Id.ToString().Criptografar()">
+                                    <td>@item.Nome</td>
+                                    <td>
+                                        @item.Email
+                                    </td>
+                                    <td>@item.Cpf</td>
+                                    @if (item.Status.Equals(true))
+                                    {
+                                        <td>Ativo</td>
+                                    }
+                                    else
+                                    {
+                                        <td>Inativo</td>
+                                    }
+                                    <td>@item.CreateAt</td>
+                                    <td class="btn-group btn-group-sm">
+                                        <a href="@Url.Action("Edit", "Usuario", new { id = item.Id.ToString().Criptografar()})" class="btn btn-info"><i class="fas fa-pencil-alt"></i></a>
+                                        <a href="@Url.Action("Delete", "Usuario", new { id = item.Id.ToString().Criptografar()})" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                            }
+
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>CPF</th>
+                                <th>Status</th>
+                                <th>Data Cadastro</th>
+                                <th>Ação</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+
+
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+
+    </div>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Excluir Usuário</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                </div>
+                <div class="modal-body">
+                    <p>Some text in the modal.</p>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Salvar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</section>
+
+

@@ -1,0 +1,86 @@
+﻿@model List<Cabflix.Models.Database.Ativo>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+<section class="content margin-top-10">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Ativo</h3>
+                    <div class="card-tools">
+                        <a href="@Url.Action("Create", "Ativo")" class="btn btn-tool" data-toggle="tooltip" title="Adicionar Ativo"><i class="fas fa-plus"></i></a>
+                    </div>
+                </div>
+                <div class="card-body" style="display: block;">
+
+                    <table id="usuario" class="table table-bordered table-striped table-row">
+                        <thead>
+                            <tr>
+                                <th>Identificador</th>
+                                <th>Modelo</th>
+                                <th>Número Linha</th>
+                                <th>Contato</th>
+                                <th>Status</th>
+                                <th>Empresa</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr id="@item.Id">
+                                    <td>@item.Identificador</td>
+                                    <td>@item.Modelo</td>
+                                    <td>@item.ContatoNome</td>
+                                    <td>@item.ContatoNumero</td>
+                                    @if (item.Status.Equals(true))
+                                    {
+                                        <td>Ativo</td>
+                                    }
+                                    else
+                                    {
+                                        <td>Inativo</td>
+                                    }
+                                    <td>@item.Empresa.Nome</td>
+                                    <td class="btn-group btn-group-sm">
+                                        <a href="@Url.Action("Edit", "Ativo", new { id = item.Id})" class="btn btn-info"><i class="fas fa-pencil-alt"></i></a>
+                                        <a href="@Url.Action("Delete", "Ativo", new { id = item.Id})" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                            }
+
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Identificador</th>
+                                <th>Modelo</th>
+                                <th>Número Linha</th>
+                                <th>Contato</th>
+                                <th>Status</th>
+                                <th>Empresa</th>
+                                <th>Ação</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+
+
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+
+    </div>
+
+
+</section>
+
+

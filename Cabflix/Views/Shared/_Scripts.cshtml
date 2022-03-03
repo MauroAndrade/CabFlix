@@ -1,0 +1,35 @@
+﻿@{
+    var local = ViewData["tela"]?.ToString();
+    var pBase = "~/Content/scripts/";
+
+    if (local == "CentroCusto")
+    {
+        pBase += "CentroCusto.js";
+    }
+    else if (local == "Dashboard")
+    {
+        pBase += "Dashboard.js";
+    }
+    else if (local == "Usuario")
+    {
+        pBase += "Usuario.js";
+    }
+    else if (local == "Empresa")
+    {
+        pBase += "Empresa.js";
+    }
+    else if (local == "Agenda")
+    {
+        pBase += "Agenda.js";
+    }
+    else if (local == "Painel")
+    {
+        pBase += "Painel.js";
+    }
+
+}
+@if (local != null)
+{
+    <script src="@Url.Content(pBase)"></script>
+}
+

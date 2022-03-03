@@ -1,0 +1,411 @@
+﻿@using Cabflix.Models.Database;
+@using Cabflix.Models.ViewModel;
+
+@{
+
+    ViewData["tela"] = "Painel";
+
+    //var listaGruposServico = (List<string>)ViewBag.ListaGruposServico;
+    var listaGrupos = (List<PainelGruposViewModel>)ViewBag.Grupos;
+
+    var ResumoContato = (List<PainelResumoContatoViewModel>)ViewBag.ResumoContato;
+
+    var listaGruposServico = listaGrupos.Select(x => x.Grupo).Distinct().ToList();
+
+    var contador = 0;
+
+    var idContato = 0;
+}
+
+<section class="content margin-top-10">
+
+    @using (Html.BeginForm("Index", "Detalhamento", FormMethod.Post, new { @class = "col s12" }))
+    {
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Conta</label>
+                    <select class="form-control select2" style="width: 100%;" id="conta" name="conta">
+                        <option value="0">Selecione</option>
+                        @foreach (var item in ViewBag.Conta)
+                        {
+                            <option @(ViewBag.ContaSelecionada == item.Id ? "selected" : "") value="@item.Id">@item.Codigo</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Número</label>
+                    <select class="form-control select2" style="width: 100%;" id="numero" name="numero">
+                        <option value="0">Selecione</option>
+                        @foreach (var item in ViewBag.Numero)
+                        {
+                            <option @(ViewBag.NumeroSelecionada == item.Id ? "selected" : "") value="@item.Id">@item.Numero</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+
+                <div class="form-group">
+                    <label>Mês Referência</label>
+                    <div class='input-group date' id='datetimepicker'>
+                        <input type='text' class="form-control datepicker" name="datepicker" id="datepicker" value="@(DateTime.Now.Month.ToString() +"/"+ DateTime.Now.Year.ToString())" />
+                        @*<input type='text' class="form-control" name="referencia" id="referencia" value="@ViewBag.Referencia" />*@
+                        @*<span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+        </span>*@
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                @*<a href="/Detalhamento/Index" class="btn btn-secondary">Filtrar</a>
+                    <input type="submit" value="Salvar" class="btn btn-success float-right">*@
+
+                <a class="btn btn-info float-right margin-top-30 RelatorioDetalhamento"><i class="fas fa-cloud-download-alt"></i> Detalhamento Acesso</a>
+                @*<a href="Relatorio" class="btn btn-info float-right margin-top-30"><i class="fas fa-cloud-download-alt"></i> Baixar Relatório</a>*@
+                @*<a onclick="relatorio()" class="btn btn-info float-right margin-top-30"><i class="fas fa-cloud-download-alt"></i> Baixar Relatório</a>*@
+                @*<input type="submit" value="Filtrar" class="btn btn-success float-right margin-top-30" style="margin-right: 15px;">*@
+            </div>
+        </div>
+    }
+    <!-- Info boxes -->
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
+                <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-dollar-sign"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Valor Total</span>
+                    <span class="info-box-number">
+                        <small>R$</small>
+                        @string.Format("{0:N}", ViewBag.Total)
+                    </span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-info elevation-1"><i class="fas fa-broadcast-tower"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Consumo de Dados</span>
+                    <span class="info-box-number">@string.Format("{0:N}", ViewBag.Dados)</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <!-- fix for small devices only -->
+        <div class="clearfix hidden-md-up"></div>
+
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-success elevation-1"><i class="fab fa-telegram-plane"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Quantidade de Registros</span>
+                    <span class="info-box-number">@ViewBag.Registros</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Quantidade de Números</span>
+                    <span class="info-box-number">@ViewBag.Numeros</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+
+
+
+
+    <div class="row">
+        <div class="col-12 col-sm-12 col-lg-12">
+            <div class="card card-primary card-outline card-tabs">
+                <div class="card-header p-0 pt-1">
+                    <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="custom-tabs-one-grupos-tab" data-toggle="pill" href="#custom-tabs-one-grupos" role="tab" aria-controls="custom-tabs-one-grupos" aria-selected="true">Grupos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="custom-tabs-one-tipoplanos-tab" data-toggle="pill" href="#custom-tabs-one-tipoplanos" role="tab" aria-controls="custom-tabs-one-tipoplanos" aria-selected="false">Tipos de Planos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="custom-tabs-one-centrocusto-tab" data-toggle="pill" href="#custom-tabs-one-centrocusto" role="tab" aria-controls="custom-tabs-one-centrocusto" aria-selected="false">Centro de Custos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="custom-tabs-one-contatos-tab" data-toggle="pill" href="#custom-tabs-one-contatos" role="tab" aria-controls="custom-tabs-one-contatos" aria-selected="false">Contatos</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content" id="custom-tabs-one-tabContent">
+                        <div class="tab-pane fade show active" id="custom-tabs-one-grupos" role="tabpanel" aria-labelledby="custom-tabs-one-grupos-tab">
+
+                            <div class="row">
+                                <div class="col-12">
+
+                                    <div class="panel-group">
+                                        <div class="panel panel-default">
+
+                                            @foreach (var g in listaGruposServico)
+                                            {
+
+                                                <div class="panel-heading">
+                                                    <div class="row">
+
+                                                        <div class="col-md-4">
+                                                            <h6 class="panel-title">
+                                                                <a data-toggle="collapse" href="#collapse_@contador">@g</a>
+                                                            </h6>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            400
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            550,12
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            130,00
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            130,00
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="collapse_@contador" class="panel-collapse collapse">
+
+                                                    <div class="card-body table-responsive p-0" style="height: 300px;">
+                                                        <table class="table table-head-fixed text-nowrap">
+                                                            <thead>
+                                                                <tr>
+                                                                    @*<th>Grupo</th>*@
+                                                                    <th>Servico</th>
+                                                                    <th>Quantidade</th>
+                                                                    <th>Valor</th>
+                                                                    <th>Média</th>
+                                                                    <th>%</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+
+                                                                @foreach (var l in listaGrupos)
+                                                                {
+                                                                    if (g == l.Grupo)
+                                                                    {
+
+                                                                        <tr>
+                                                                            @*<td>@item.Grupo</td>*@
+                                                                            <td>@l.Servico</td>
+                                                                            <td>@l.Quantidade</td>
+                                                                            <td>@l.Valor.ToString("n2")</td>
+                                                                            <td>@l.Media.ToString("n2")</td>
+                                                                            <td>@l.Porcentagem.ToString("n2") %</td>
+
+                                                                        </tr>
+
+                                                                    }
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+                                                    @*<div class="panel-footer">Footer</div>*@
+                                                </div>
+
+                                                contador = contador + 1;
+                                            }
+
+                                        </div>
+                                    </div>
+
+                                    @*<div class="card">
+                                        <div class="card-header">*@
+                                    @*<h3 class="card-title">Fixed Header Table</h3>*@
+
+                                    @*<div class="card-tools">
+                                            <div class="input-group input-group-sm" style="width: 150px;">
+                                                <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                                                <div class="input-group-append">
+                                                    <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>*@
+                                    @*</div>*@
+                                    <!-- /.card-header -->
+                                    @*<div class="card-body table-responsive p-0" style="height: 300px;">
+                                            <table class="table table-head-fixed text-nowrap">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Servico</th>
+                                                        <th>Quantidade</th>
+                                                        <th>Valor</th>
+                                                        <th>Média</th>
+                                                        <th>%</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    @foreach (var item in listaGrupos)
+                                                    {
+                                                        <tr>
+                                                            <td>@item.Servico</td>
+                                                            <td>@item.Quantidade</td>
+                                                            <td>@item.Valor.ToString("n2")</td>
+                                                            <td>@item.Media.ToString("n2")</td>
+                                                            <td>@item.Porcentagem.ToString("n2") %</td>
+                                                        </tr>
+                                                    }
+
+                                                </tbody>
+                                            </table>
+                                        </div>*@
+                                    <!-- /.card-body -->
+                                    @*</div>*@
+                                    <!-- /.card -->
+                                </div>
+                            </div>
+                            <!-- /.row -->
+
+
+                        </div>
+                        <div class="tab-pane fade" id="custom-tabs-one-tipoplanos" role="tabpanel" aria-labelledby="custom-tabs-one-tipoplanos-tab">
+
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Firstname</th>
+                                        <th>Lastname</th>
+                                        <th>Email</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>John</td>
+                                        <td>Doe</td>
+                                        <td>john@example.com</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mary</td>
+                                        <td>Moe</td>
+                                        <td>mary@example.com</td>
+                                    </tr>
+                                    <tr>
+                                        <td>July</td>
+                                        <td>Dooley</td>
+                                        <td>july@example.com</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <div class="tab-pane fade" id="custom-tabs-one-centrocusto" role="tabpanel" aria-labelledby="custom-tabs-one-centrocusto-tab">
+
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Firstname</th>
+                                        <th>Lastname</th>
+                                        <th>Email</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>John</td>
+                                        <td>Doe</td>
+                                        <td>john@example.com</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mary</td>
+                                        <td>Moe</td>
+                                        <td>mary@example.com</td>
+                                    </tr>
+                                    <tr>
+                                        <td>July</td>
+                                        <td>Dooley</td>
+                                        <td>july@example.com</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <!--CONTATO-->
+                        <div class="tab-pane fade" id="custom-tabs-one-contatos" role="tabpanel" aria-labelledby="custom-tabs-one-contatos-tab">
+
+
+
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Contato</th>
+                                        <th>Operadora</th>
+                                        <th>Valor</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+
+                                    @foreach (var c in ResumoContato.OrderBy(x => x.ID))
+                                    {
+                                        if (idContato != c.ID)
+                                        {
+                                            idContato = c.ID;
+
+                                            <tr data-toggle="collapse" data-target=".order@(c.ID)">
+                                                <td><strong>@c.NOME</strong></td>
+                                                <td></td>
+                                                <td><strong>R$ @ResumoContato.Where(x => x.ID == idContato).Sum(x => x.VALOR).ToString("n2")</strong></td>
+                                                <td class="btn-group">
+                                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                                        Relatório <span class="caret"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu" role="menu">
+                                                        <li style="padding-left: 10px;"><a id="@(c.ID)" onclick="RelatorioAcessoDetalhado(this.id)" style="cursor: pointer" >Acesso Detalhado</a></li>
+                                                        <li style="padding-left: 10px;"><a href="#">Acesso Sintético</a></li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        }
+                                        <tr class="collapse order@(c.ID)">
+                                            <td style="padding-left:35px;">@c.NUMERO</td>
+                                            <td>Vivo</td>
+                                            <td>R$ @c.VALOR.ToString("n2")</td>
+                                            <td></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+
+
+
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+    </div>
+
+</section>
+

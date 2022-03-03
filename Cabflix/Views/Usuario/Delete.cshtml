@@ -1,0 +1,109 @@
+﻿@model Cabflix.Models.ViewModel.UsuarioViewModel
+
+@using Cabflix.Models.Database;
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+
+
+<section class="content margin-top-10">
+
+    @using (Html.BeginForm("Delete", "Usuario", FormMethod.Post,  new { @class = "col s12" }))
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Editar Usuário</h3>
+
+                        @*<div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>*@
+                    </div>
+                    <div class="card-body" style="display: block;">
+
+
+                        @Html.AntiForgeryToken()
+
+                        @Html.HiddenFor(Model => Model.Id)
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(Model => Model.Nome)
+                                    @Html.EditorFor(Model => Model.Nome, "", new { htmlAttributes = new { @class = "form-control validate", @disabled = "disabled" } })
+                                    @Html.ValidationMessageFor(Model => Model.Nome)
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(Model => Model.Cpf)
+                                    @Html.EditorFor(Model => Model.Cpf, "", new { htmlAttributes = new { @class = "form-control validate", @disabled = "disabled" } })
+                                    @Html.ValidationMessageFor(Model => Model.Cpf)
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(Model => Model.Email)
+                                    @Html.EditorFor(Model => Model.Email, "", new { htmlAttributes = new { @class = "form-control validate", @disabled = "disabled" } })
+                                    @Html.ValidationMessageFor(Model => Model.Email)
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group floating-label">
+                                    @Html.LabelFor(Model => Model.FKEmpresa)
+                                    @Html.DropDownListFor(Model => Model.FKEmpresa, new SelectList((IEnumerable<Empresa>
+                                                )ViewBag.Empresa, "Id", "Nome"),
+                                                "Selecione", new { @id = "Id", @class = "form-control validate", @disabled = "disabled" })
+                                    @Html.ValidationMessageFor(Model => Model.FKEmpresa)
+                                </div>
+                                <div class="form-group floating-label">
+                                    @Html.LabelFor(Model => Model.FKPerfil)
+                                    @Html.DropDownListFor(Model => Model.FKPerfil, new SelectList((IEnumerable<Perfil>
+                                                )ViewBag.Perfil, "Id", "Nome"),
+                                                "Selecione", new { @id = "Id", @class = "form-control validate", @disabled = "disabled" })
+                                    @Html.ValidationMessageFor(Model => Model.FKPerfil)
+                                </div>
+                                @*<div class="form-group">
+                                    @Html.LabelFor(Model => Model.Login)
+                                    @Html.EditorFor(Model => Model.Login, "", new { htmlAttributes = new { @class = "form-control validate", @disabled = "disabled" } })
+                                    @Html.ValidationMessageFor(Model => Model.Login)
+                                </div>*@
+                                @*<div class="form-group">
+                                        @Html.LabelFor(Model => Model.Senha)
+                                        @Html.EditorFor(Model => Model.Senha, "", new { htmlAttributes = new { @class = "form-control validate" } })
+                                        @Html.ValidationMessageFor(Model => Model.Senha)
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(Model => Model.ConfirmacaoSenha)
+                                        @Html.EditorFor(Model => Model.ConfirmacaoSenha, "", new { htmlAttributes = new { @class = "form-control validate" } })
+                                        @Html.ValidationMessageFor(Model => Model.ConfirmacaoSenha)
+                                    </div>*@
+                                <div class="form-group clearfix">
+                                    @*<div class="icheck-primary">
+                                        @Html.EditorFor(Model => Model.Status, new { id = "",  })
+                                        @Html.LabelFor(Model => Model.Status)
+                                    </div>*@
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <a href="@Url.Action("Index", "Usuario")" class="btn btn-secondary">Cancelar</a>
+                <input type="submit" value="Deletar" class="btn btn-success float-right">
+            </div>
+        </div>
+    }
+</section>
+

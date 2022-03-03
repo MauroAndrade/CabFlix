@@ -1,0 +1,129 @@
+﻿@model Cabflix.Models.ViewModel.ContaViewModel
+
+@using Cabflix.Models.Database;
+
+@{
+    ViewBag.Title = "Cadastrar Conta";
+
+}
+
+
+<section class="content margin-top-10">
+
+    @using (Html.BeginForm("Create", "Conta", FormMethod.Post, new { @class = "col s12" }))
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Cadastrar Conta</h3>
+
+                        @*<div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>*@
+                    </div>
+                    <div class="card-body" style="display: block;">
+
+
+                        @Html.AntiForgeryToken()
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Codigo, htmlAttributes: new { @class = "control-label col-md-6" })
+                                    @Html.EditorFor(model => model.Codigo, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Codigo, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.FkOperadora, htmlAttributes: new { @class = "control-label col-md-6" })
+                                    @Html.DropDownListFor(Model => Model.FkOperadora, new SelectList((IEnumerable<Operadora>)ViewBag.Operadora, "Id", "Nome"), "Selecione", new { @id = "FkOperadora", @class = "form-control validate" })
+                                    @Html.ValidationMessageFor(model => model.FkOperadora, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.FkTipoConta, htmlAttributes: new { @class = "control-label col-md-6" })
+                                    @Html.DropDownListFor(Model => Model.FkTipoConta, new SelectList((IEnumerable<TipoConta>)ViewBag.TipoConta, "Id", "Nome"), "Selecione", new { @id = "FkTipoConta", @class = "form-control validate" })
+                                    @Html.ValidationMessageFor(model => model.FkTipoConta, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Cnpj, htmlAttributes: new { @class = "control-label col-md-6" })
+                                    @Html.EditorFor(model => model.Cnpj, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Cnpj, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.RazaoSocial, htmlAttributes: new { @class = "control-label col-md-6" })
+                                    @Html.EditorFor(model => model.RazaoSocial, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.RazaoSocial, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Vencimento, htmlAttributes: new { @class = "control-label col-md-6" })
+                                    @Html.EditorFor(model => model.Vencimento, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Vencimento, "", new { @class = "text-danger" })
+                                </div>
+
+                                @*<div class="form-group">
+            <label>Date masks:</label>
+
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                </div>
+                <input type="text" class="form-control" data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask="" im-insert="false">
+            </div>
+        </div>*@
+
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Prazo, htmlAttributes: new { @class = "control-label col-md-6" })
+                                    @Html.EditorFor(model => model.Prazo, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Prazo, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.InicioVigencia, htmlAttributes: new { @class = "control-label col-md-6" })
+                                    @Html.EditorFor(model => model.InicioVigencia, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.InicioVigencia, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.FimVigencia, htmlAttributes: new { @class = "control-label col-md-6" })
+                                    @Html.EditorFor(model => model.FimVigencia, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.FimVigencia, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.PrimeiraFatura, htmlAttributes: new { @class = "control-label col-md-6" })
+                                    @Html.EditorFor(model => model.PrimeiraFatura, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.PrimeiraFatura, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.UltimaFatura, htmlAttributes: new { @class = "control-label col-md-6" })
+                                    @Html.EditorFor(model => model.UltimaFatura, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.UltimaFatura, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Observacao, htmlAttributes: new { @class = "control-label col-md-6" })
+                                    @Html.EditorFor(model => model.Observacao, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Observacao, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <a href="@Url.Action("Index", "Conta")" class="btn btn-secondary">Cancelar</a>
+                <input type="submit" value="Salvar" class="btn btn-success float-right">
+            </div>
+        </div>
+    }
+</section>
+

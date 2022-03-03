@@ -1,0 +1,248 @@
+﻿@model List<Cabflix.Models.Database.ContaPadronizada>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<section class="content margin-top-10">
+
+    @using (Html.BeginForm("Index", "Detalhamento", FormMethod.Post, new { @class = "col s12" }))
+    {
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Conta</label>
+                    <select class="form-control select2" style="width: 100%;" id="conta" name="conta">
+                        <option value="0">Selecione</option>
+                        @foreach (var item in ViewBag.Conta)
+                        {
+                            <option @(ViewBag.ContaSelecionada == item.Id ? "selected" : "") value="@item.Id">@item.Codigo</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Número</label>
+                    <select class="form-control select2" style="width: 100%;" id="numero" name="numero">
+                        <option value="0">Selecione</option>
+                        @foreach (var item in ViewBag.Numero)
+                        {
+                            <option @(ViewBag.NumeroSelecionada == item.Id ? "selected" : "") value="@item.Id">@item.Numero</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+
+                <div class="form-group">
+                    <label>Mês Referência</label>
+                    <div class='input-group date' id='datetimepicker'>
+                        <input type='text' class="form-control" name="referencia" id="referencia" value="@ViewBag.Referencia"/>
+                        @*<span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>*@
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                @*<a href="/Detalhamento/Index" class="btn btn-secondary">Filtrar</a>
+        <input type="submit" value="Salvar" class="btn btn-success float-right">*@
+
+                <a class="btn btn-info float-right margin-top-30 RelatorioDetalhamento"><i class="fas fa-cloud-download-alt"></i> Detalhamento Acesso</a>
+                <a href="Relatorio" class="btn btn-info float-right margin-top-30"><i class="fas fa-cloud-download-alt"></i> Baixar Relatório</a>
+                @*<a onclick="relatorio()" class="btn btn-info float-right margin-top-30"><i class="fas fa-cloud-download-alt"></i> Baixar Relatório</a>*@
+                <input type="submit" value="Filtrar" class="btn btn-success float-right margin-top-30" style="margin-right: 15px;">
+            </div>
+        </div>
+    }
+    <!-- Info boxes -->
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
+                <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-dollar-sign"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Valor Total</span>
+                    <span class="info-box-number">
+                        <small>R$</small>
+                        @string.Format("{0:N}", ViewBag.Total)
+                    </span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-info elevation-1"><i class="fas fa-broadcast-tower"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Consumo de Dados</span>
+                    <span class="info-box-number">@string.Format("{0:N}", ViewBag.Dados)</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <!-- fix for small devices only -->
+        <div class="clearfix hidden-md-up"></div>
+
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-success elevation-1"><i class="fab fa-telegram-plane"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Quantidade de Registros</span>
+                    <span class="info-box-number">@ViewBag.Registros</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Quantidade de Números</span>
+                    <span class="info-box-number">@ViewBag.Numeros</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Detalhamento</h3>
+                    <div class="card-tools">
+                        @*<a href="@Url.Action("Create", "Empresa")" class="btn btn-tool" data-toggle="tooltip" title="Adicionar Empresa"><i class="fas fa-plus"></i></a>*@
+                    </div>
+                </div>
+                <div class="card-body" style="display: block;">
+
+                    <table id="usuario" class="table table-bordered table-striped table-row">
+                        <thead>
+                            <tr>
+                                <th>Operadora</th>
+                                <th>Tipo</th>
+                                <th>Conta</th>
+                                <th>Origem</th>
+                                <th>Destino</th>
+                                <th>Referência</th>
+                                <th>Data</th>
+                                @*<th>Grupo</th>
+                                    <th>Serviço</th>*@
+                                <th>Quantidade</th>
+                                <th>Horário</th>
+                                <th>UF</th>
+                                <th>País</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr id="@item.Id">
+                                    <td>@item.NumeroLinha.Conta.Operadora.Nome</td>
+                                    <td>@item.NumeroLinha.Conta.TipoConta.Nome</td>
+                                    <td>@item.NumeroLinha.Conta.Codigo</td>
+                                    <td>@item.NumeroLinha.Numero</td>
+                                    <td>@item.NumeroDestino</td>
+                                    <td>@item.MesReferencia.ToString("MM/yyyy")</td>
+                                    <td>@item.Data.Date.ToString("dd/MM/yyyy")</td>
+                                    @*<td>@item.Servico.GrupoDeServico.Nome</td>
+                                        <td>@item.Servico.Nome</td>*@
+                                    <td>@item.MinutosQtd</td>
+                                    <td>@item.Horario</td>
+
+                                    @if (item.Uf != null)
+                                    {
+                                        <td>@item.Uf.Sigla</td>
+                                        <th>@item.Uf.Pai.Nome</th>
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                        <td></td>
+                                    }
+                                    <th>R$ @item.Valor.ToString("n2")</th>
+                                    @*<th>@string.Format("{0:n}", item.Valor)</th>*@
+
+                                    @*<td class="btn-group btn-group-sm">
+                                            <a href="@Url.Action("Edit", "Empresa", new { id = item.Id})" class="btn btn-info"><i class="fas fa-pencil-alt"></i></a>
+                                            <a href="@Url.Action("Delete", "Empresa", new { id = item.Id})" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                        </td>*@
+                                </tr>
+                            }
+
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Operadora</th>
+                                <th>Tipo</th>
+                                <th>Conta</th>
+                                <th>Origem</th>
+                                <th>Destino</th>
+                                <th>Referência</th>
+                                <th>Data</th>
+                                @*<th>Grupo</th>
+                                    <th>Serviço</th>*@
+                                <th>Quantidade</th>
+                                <th>Horário</th>
+                                <th>UF</th>
+                                <th>País</th>
+                                <th>Valor</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+
+
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+
+    </div>
+
+
+</section>
+
+<script>
+
+    function relatorio() {
+        var numero = $('#numero').val();
+
+        console.log(numero);
+        
+
+        $.ajax({
+            cache: false,
+            //contentType: "application/json; charset=utf-8",
+            //dataType: "json",
+            method: "post",
+            url: "/Detalhamento/Relatorio?numero=" + numero,
+            //data: { numero: numero },
+            success: function (data) {
+
+
+            }
+        });
+
+    }
+
+</script>

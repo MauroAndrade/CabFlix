@@ -1,0 +1,51 @@
+﻿@model Cabflix.Models.ViewModel.AgendaEditViewModel
+
+@using Cabflix.Models.Database;
+
+<div class="modal-content">
+    <div class="modal-header">
+        @*<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Editar Centro de Custo</h4>*@
+
+        <h4 class="modal-title">Cadastrar Agenda</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    @Html.LabelFor(Model => Model.Nome)
+                    @Html.EditorFor(Model => Model.Nome, "", new { htmlAttributes = new { @class = "form-control validate" } })
+                    @Html.ValidationMessageFor(Model => Model.Nome)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(Model => Model.Telefone)
+                    @Html.EditorFor(Model => Model.Telefone, "", new { htmlAttributes = new { @class = "form-control validate" } })
+                    @Html.ValidationMessageFor(Model => Model.Telefone)
+                </div>
+
+                <div class="form-group clearfix">
+                    <div class="icheck-primary">
+                        @Html.EditorFor(Model => Model.Individual, new { id = "" })
+                        @Html.LabelFor(Model => Model.Individual)
+                    </div>
+                </div>
+
+                <div class="form-group floating-label">
+                    @Html.LabelFor(Model => Model.FkClassificacao)
+                    @Html.DropDownListFor(Model => Model.FkClassificacao, new SelectList((IEnumerable<ClassificacaoDeLigacao>
+                                )ViewBag.ClassificacaoLigacao, "Id", "Nome"),
+                                "Selecione", new { @id = "ClassificacaoLigacao", @class = "form-control validate" })
+                    @Html.ValidationMessageFor(Model => Model.FkClassificacao)
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+        <button type="button" onclick="CreateAgenda()" class="btn btn-primary">Salvar</button>
+    </div>
+</div>

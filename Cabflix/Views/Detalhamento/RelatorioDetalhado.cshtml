@@ -1,0 +1,99 @@
+﻿@model List<Cabflix.Models.ViewModel.RelatorioUsuarioDetalhado>
+
+@using Cabflix.Controllers;
+
+@{
+    /**/
+
+    Layout = null;
+
+    var usuarioLogado = ((MasterController)this.ViewContext.Controller).GetUsuarioLogado();
+
+    var logradouro = usuarioLogado.Empresa.Logradouro;
+    var numero = usuarioLogado.Empresa.Numero;
+    var complemento = usuarioLogado.Empresa.Complemento;
+    var cidade = usuarioLogado.Empresa.Cidade;
+    var uf = usuarioLogado.Empresa.Uf;
+
+    var endereço = logradouro + ", " + numero + ", ";
+    if (!complemento.IsEmpty())
+    {
+        endereço += complemento + " - ";
+    }
+
+    endereço += cidade + " / " + uf.Nome;
+
+    var idContato = Model.FirstOrDefault().ID_CONTATO;
+    var contato  = ((MasterController)this.ViewContext.Controller).GetContato(idContato);   
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/Css/relatorio.css" rel="stylesheet" />
+
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-4">
+                <img alt="DPB" src="/dist/img/cabflix.png" style="width:170px; " />
+            </div>
+            <div class="col-md-8">
+                <strong style="font-size:18px;">@usuarioLogado.Empresa.RazaoSocial</strong><br />
+                <strong style="font-size:16px;">@endereço</strong><br />
+                <strong style="font-size:16px;">@usuarioLogado.Empresa.Email</strong><br />
+            </div>
+        </div>
+
+    </div>
+    <hr />
+    <div class="text-center">
+        <strong style="font-size:20px;">@contato.Nome</strong><br />
+        <div class="row">
+            @*@contato.*@
+        </div>
+    </div>
+    
+    <hr />
+
+    @if (Model.Any())
+    {
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Horário</th>
+                    <th>Destino</th>
+                    <th>Quantidade</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.DATA</td>
+                        <td>@item.HORARIO</td>
+                        <td>@item.DESTINO</td>
+                        <td>@(item.QUANTIDADE + " " + item.UNIDADEMEDIDA)</td>
+                        <td>R$ @item.VALOR.ToString("n2")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    }
+    else
+    {
+        <div class="row">
+            <label class="control-label col-md-12">Sem dados no momento.</label>
+        </div>
+    }
+
+</body>
+</html>

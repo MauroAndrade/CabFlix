@@ -1,0 +1,72 @@
+﻿@model List<Cabflix.Models.Database.CcNivel>
+
+@using Cabflix.Utils;
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<section class="content margin-top-10">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Nível de Centro de Custo</h3>
+                    <div class="card-tools">
+                        <a href="@Url.Action("Create", "NivelCentroCusto")" class="btn btn-tool" data-toggle="tooltip" title="Adicionar Nível"><i class="fas fa-plus"></i></a>
+                    </div>
+                </div>
+                <div class="card-body" style="display: block;">
+
+                    <table id="datatable" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Índice</th>
+                                <th>Nível</th>
+                                <th>Empresa</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr id="@item.Id.ToString().Criptografar()">
+                                    <td>@item.Indice</td>
+                                    <td>@item.Nome</td>
+                                    <td>@item.Empresa.Nome</td>
+                                    <td class="btn-group btn-group-sm">
+                                        <a href="@Url.Action("Edit", "NivelCentroCusto", new { id = item.Id.ToString().Criptografar()})" class="btn btn-info"><i class="fas fa-pencil-alt"></i></a>
+                                        <a href="@Url.Action("Delete", "NivelCentroCusto", new { id = item.Id.ToString().Criptografar()})" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                        <a href="@Url.Action("MoveUp", "NivelCentroCusto", new { id = item.Id.ToString().Criptografar()})" class="btn btn-success"><i class="fa fa-arrow-up"></i></a>
+                                        <a href="@Url.Action("MoveDown", "NivelCentroCusto", new { id = item.Id.ToString().Criptografar()})" class="btn btn-success"><i class="fa fa-arrow-down"></i></a>
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Índice</th>
+                                <th>Nível</th>
+                                <th>Empresa</th>
+                                <th>Ação</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+
+
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+
+    </div>
+
+
+</section>
+
+
